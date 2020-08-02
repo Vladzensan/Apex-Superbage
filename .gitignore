@@ -7,7 +7,7 @@
 .localdevserver/
 
 # LWC VSCode autocomplete
-**/lwc/jsconfig.jsonP
+**/lwc/jsconfig.json
 
 # LWC Jest coverage reports
 coverage/
