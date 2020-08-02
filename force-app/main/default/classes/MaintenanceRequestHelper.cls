@@ -1,5 +1,8 @@
 public with sharing class MaintenanceRequestHelper {
-    private static final Integer CYCLE_UPPERBOUND = 19;
+    private static final String NEW_TYPE = 'Routine Maintenance';
+    private static final String NEW_STATUS = 'New'; 
+    private static final String NEW_SUBJECT = 'New subject';
+
     
     public static void updateWorkOrders(List<Case> closedCases) {
        List<Case> newCases = new List<Case>();
@@ -9,15 +12,14 @@ public with sharing class MaintenanceRequestHelper {
        for(Case closedCase: closedCases) {
            Integer minDays = getLeastNumberOfDays(closedCase);
 
-           closedCase = [SELECT Type, Status, Equipment__c, Vehicle__c, Subject FROM Case WHERE Id=:closedCase.Id];
            Case newCase = new Case(
-                Type = 'Routine Maintenance',
-                Status = 'New',
+                Type = NEW_TYPE,
+                Status = NEW_STATUS,
                 Date_Reported__c = Date.today(),
                 Date_Due__c = Date.today().addDays(minDays),
                 Equipment__c = closedCase.Equipment__c,
                 Vehicle__c = closedCase.Vehicle__c,
-                Subject = closedCase.Subject != null? closedCase.Subject: 'New case'
+                Subject = closedCase.Subject != null? closedCase.Subject: NEW_SUBJECT
             );
 
             newCases.add(newCase);
