@@ -3,10 +3,27 @@
 // for the managed package installation 
 
 @IsTest
-public class InstallationTests {
+private class InstallationTests {
+
+    private static final Integer CASES_COUNT = 300;
+
     @IsTest
     public static void testMaintenanceRequest(){
-       // MaintenanceRequestHelper.updateWorkOrders();
+       List<Case> cases = TestDataFactory.initCaseData(CASES_COUNT);
+
+       Test.startTest();
+
+       for(Case c: cases) {
+           c.Status = 'Closed';
+           c.Type='Repair';
+       }
+        
+
+       update cases;
+
+       Test.stopTest();
+
+       System.assertEquals(CASES_COUNT, [SELECT COUNT() FROM Case WHERE Status = 'New']);
     }
     
     @IsTest
